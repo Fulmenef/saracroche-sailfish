@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily update of the Saracroche call blocking lists
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+# Spreads the requests of all phones over the hour.
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target

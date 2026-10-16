@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=saracroche-sailfish
+Exec=saracroche-sailfish
+Name=Saracroche (non officiel)
+
+[X-Sailjail]
+Sandboxing=Disabled

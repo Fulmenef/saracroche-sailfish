@@ -1,0 +1,6 @@
+[Unit]
+Description=Update the Saracroche call blocking lists
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/saracroche-sailfish --sync
