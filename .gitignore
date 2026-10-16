@@ -1,0 +1,17 @@
+# qmake / sfdk build output
+Makefile
+.qmake.stash
+*.o
+moc_*
+*.moc
+qrc_*
+/saracroche-sailfish
+/tests/tst_patterns
+/RPMS/
+/build*/
+
+# Qt Creator
+*.pro.user*
+
+# macOS
+.DS_Store
