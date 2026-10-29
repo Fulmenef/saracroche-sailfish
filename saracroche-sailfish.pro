@@ -2,7 +2,7 @@ TARGET = saracroche-sailfish
 
 CONFIG += sailfishapp link_pkgconfig c++11
 QT += network sql
-PKGCONFIG += mlite5
+PKGCONFIG += sailfishapp mlite5
 
 SOURCES += src/main.cpp
 HEADERS += src/patterns.h
