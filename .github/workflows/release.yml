@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag matches spec
+        run: |
+          spec=rpm/saracroche-sailfish.spec
+          expected="v$(awk '/^Version:/{print $2}' $spec)-$(awk '/^Release:/{print $2}' $spec)"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match spec $expected"
+            exit 1
+          fi
+
+      - name: Run unit tests
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qtbase5-dev
+          cd tests && qmake && make -s && ./tst_patterns
+
+      - name: Build RPM
+        run: |
+          mkdir out && chmod 777 out
+          docker run --rm -v "$PWD":/work:ro -v "$PWD/out":/out \
+            coderus/sailfishos-platform-sdk-aarch64:5.1.0.11 \
+            bash -lc 'cp -r /work ~/src && cd ~/src && rm -rf .git && mb2 -t SailfishOS-5.1.0.11-aarch64 build && cp RPMS/*.rpm /out/'
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" out/*.rpm --generate-notes
