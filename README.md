@@ -25,9 +25,15 @@ menu, otherwise the numbers stay blocked.
 ## Build
 
 ```sh
-sfdk config target=SailfishOS-5.0.0.62-aarch64
-sfdk build
+docker run --rm -v "$PWD":/work:ro -v "$PWD/RPMS":/out \
+  coderus/sailfishos-platform-sdk-aarch64:5.1.0.11 \
+  bash -lc 'cp -r /work ~/src && cd ~/src && rm -rf .git && mb2 -t SailfishOS-5.1.0.11-aarch64 build && cp RPMS/*.rpm /out/'
 ```
+
+To publish a release, bump `Version`/`Release` in `rpm/saracroche-sailfish.spec`,
+commit, then push a tag: `git tag v0.1.0-2 && git push origin v0.1.0-2`.
+The GitHub Action checks that the tag matches the spec (`v<Version>-<Release>`),
+runs the unit tests, builds the RPM and attaches it to the release.
 
 Unit tests (host Qt 5): `cd tests && qmake && make && ./tst_patterns`
 
