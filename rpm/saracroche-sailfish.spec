@@ -1,7 +1,7 @@
 Name:       saracroche-sailfish
 Summary:    Blocks French telemarketing calls with the Saracroche lists (unofficial port)
 Version:    0.1.0
-Release:    2
+Release:    3
 License:    GPLv3
 URL:        https://saracroche.org
 Source0:    %{name}-%{version}.tar.bz2
