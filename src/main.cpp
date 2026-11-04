@@ -29,6 +29,8 @@ static const QString ApiBase = ApiHost + QStringLiteral("/api/v2");
 static const QString RejectedKey = QStringLiteral("/sailfish/voicecall/filter/rejected-numbers");
 static const QString WhitelistKey = QStringLiteral("/sailfish/voicecall/filter/whitelist");
 static const QString Anonymous = QStringLiteral("anonymous");
+// "anonymous" when the carrier sends that line ID, "" when it sends none ("private number").
+static const QStringList HiddenCallerIds = { Anonymous, QStringLiteral("") };
 static const int TimeoutMs = 30000;
 
 class Saracroche : public QObject
@@ -60,9 +62,10 @@ public:
     void setBlockAnonymous(bool block)
     {
         QStringList list = m_rejected.value().toStringList();
-        list.removeAll(Anonymous);
+        for (const QString &id : HiddenCallerIds)
+            list.removeAll(id);
         if (block)
-            list.prepend(Anonymous);
+            list = HiddenCallerIds + list;
         m_rejected.set(list);
         m_rejected.sync();
         emit changed();
@@ -70,6 +73,8 @@ public:
 
     Q_INVOKABLE void start()
     {
+        if (blockAnonymous())
+            setBlockAnonymous(true); // older versions did not write the "" entry
         countBlocked();
         if (!m_settings.contains(QStringLiteral("lastSync")))
             sync();

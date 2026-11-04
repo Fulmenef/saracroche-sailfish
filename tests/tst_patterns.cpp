@@ -46,6 +46,11 @@ private slots:
     {
         QCOMPARE(::merge({ "anonymous", "^+33162" }, { "^+33162" }, {}), QStringList({ "anonymous" }));
     }
+
+    void mergeKeepsEmptyHiddenCallerEntry()
+    {
+        QCOMPARE(::merge({ "anonymous", "", "^+33162" }, { "^+33162" }, {}), QStringList({ "anonymous", "" }));
+    }
 };
 
 QTEST_APPLESS_MAIN(TestPatterns)
