@@ -27,7 +27,7 @@ call filter, which rejects those calls.
 %setup -q -n %{name}-%{version}
 
 %build
-%qmake5
+%qmake5 APP_VERSION=%{version}-%{release}
 %make_build
 
 %install

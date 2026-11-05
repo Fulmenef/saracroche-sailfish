@@ -113,6 +113,11 @@ Page {
 
             SectionHeader { text: "À propos" }
 
+            DetailItem {
+                label: "Version"
+                value: appVersion
+            }
+
             Label {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * x

@@ -313,6 +313,7 @@ int main(int argc, char *argv[])
     Saracroche saracroche;
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     view->rootContext()->setContextProperty(QStringLiteral("saracroche"), &saracroche);
+    view->rootContext()->setContextProperty(QStringLiteral("appVersion"), QStringLiteral(APP_VERSION));
     view->setSource(SailfishApp::pathToMainQml());
     view->show();
     saracroche.start();

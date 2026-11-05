@@ -4,6 +4,9 @@ CONFIG += sailfishapp link_pkgconfig c++11
 QT += network sql
 PKGCONFIG += sailfishapp mlite5
 
+isEmpty(APP_VERSION): APP_VERSION = dev
+DEFINES += APP_VERSION=\\\"$$APP_VERSION\\\"
+
 SOURCES += src/main.cpp
 HEADERS += src/patterns.h
 
