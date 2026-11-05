@@ -50,6 +50,9 @@ public:
         , m_whitelist(WhitelistKey)
     {
         connect(&m_rejected, &MDConfItem::valueChanged, this, &Saracroche::changed);
+        // Here rather than in start() so the daily --sync also upgrades older installs.
+        if (blockAnonymous())
+            setBlockAnonymous(true);
     }
 
     bool busy() const { return m_busy; }
@@ -73,8 +76,6 @@ public:
 
     Q_INVOKABLE void start()
     {
-        if (blockAnonymous())
-            setBlockAnonymous(true); // older versions did not write the "" entry
         countBlocked();
         if (!m_settings.contains(QStringLiteral("lastSync")))
             sync();
